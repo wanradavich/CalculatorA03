@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Display = ({ input, result }) => {
     return (
         <div className="display">
