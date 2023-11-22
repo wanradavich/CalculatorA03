@@ -38,20 +38,18 @@ const Calculator = () => {
             setInput((prevInput) => prevInput + value);
             setPendingCalculation((prevPending) => prevPending + input + value);
         }
+        
         console.log('Input after handling click: ', input);
         console.log('Pending Calculation: ', pendingCalculation);
         console.log('Result: ', result);
     };
 
     useEffect(() => {
-        // Logic to run after input state is updated
-        if (input === 'Error') {
-            // Handle error state if needed
-            console.error('Calculation error: Input is in an error state');
-            // Reset the error state
-            setInput('');
+        // Clear the result when a number button is pressed after a calculation
+        if (result !== '' && !isOperator(input.charAt(input.length - 1))) {
+            setResult('');
         }
-    }, [input]);
+    }, [input, result]);
 
     const calculateResult = () => {
         try {
@@ -67,9 +65,16 @@ const Calculator = () => {
     return (
         <div className="calculator">
             <Display input={input} result={result} />
-            {calculatorButtons.map((button) => (
-                <Button key={button.className} label={button.text} onClick={() => handleButtonClick(button.value)} />
-            ))}
+            <div className="button-grid">
+                {calculatorButtons.map((button) => (
+                    <Button
+                        key={button.className}
+                        label={button.text}
+                        onClick={() => handleButtonClick(button.value)}
+                        style={button.style}
+                    />
+                ))}
+            </div>
         </div>
     );
 };
