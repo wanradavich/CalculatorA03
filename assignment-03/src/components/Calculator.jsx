@@ -18,25 +18,25 @@ const Calculator = () => {
 
         // Clear all
         if (value === 'AC') {
-            setInput('');
-            setPendingCalculation('');
-            setResult('');
+            handleClearAll();
         // Clear current input
         } else if (value === 'C') {
-            setInput((prevInput) => prevInput.slice(0, -1));
+            handleClear();
+            // setInput((prevInput) => prevInput.slice(0, -1));
         // Perform calculation
         } else if (value === '=') {
-            if (isOperator(input.charAt(input.length - 1))) {
-                setInput((prevInput) => prevInput.slice(0, -1));
-            }
-            const newResult = calculateResult();
-            setInput(newResult);
-            setPendingCalculation('');
-            setResult('');
+            handleEqual();
+            // if (isOperator(input.charAt(input.length - 1))) {
+            //     setInput((prevInput) => prevInput.slice(0, -1));
+            // }
+            // const newResult = calculateResult();
+            // setInput(newResult);
+            // setPendingCalculation('');
+            // setResult('');
         // Append numeric or operator value to input
         } else {
             setInput((prevInput) => prevInput + value);
-            setPendingCalculation((prevPending) => prevPending + input + value);
+            setPendingCalculation((prevPending) => prevPending + value);
         }
         
         console.log('Input after handling click: ', input);
@@ -44,17 +44,48 @@ const Calculator = () => {
         console.log('Result: ', result);
     };
 
-    useEffect(() => {
-        // Clear the result when a number button is pressed after a calculation
-        if (result !== '' && !isOperator(input.charAt(input.length - 1))) {
-            setResult('');
+    // const handleClear = () => {
+    //     setInput((prevInput) => {
+    //         const newInput = prevInput.slice(0, -1);
+    //         if (isOperator(input.charAt(input.length - 1))) {
+    //             setPendingCalculation((prevPending) => prevPending.slice(0, -1));
+    //         }
+    //         setResult('');
+    //         return newInput;
+    //     });
+    // };
+
+    const handleClear = () => {
+        setInput((prevInput) => prevInput.slice(0, -1));
+    };
+
+    const handleClearAll = () => {
+        setInput('');
+        setPendingCalculation('');
+        setResult('');
+    };
+
+    const handleEqual = () => {
+        if (isOperator(input.charAt(input.length - 1))) {
+            setInput((prevInput) => prevInput.slice(0, -1));
         }
-    }, [input, result]);
+        const newResult = calculateResult();
+        setInput(newResult);
+        setPendingCalculation('');
+        setResult('');
+    }
+
+    useEffect(() => {
+        if (isOperator(input.charAt(input.length - 1))) {
+            setPendingCalculation((prevPending) => prevPending.slice(0, -1));
+        }
+        setResult('');
+    }, [input]);
 
     const calculateResult = () => {
         try {
-            const calculate = new Function('return ' + pendingCalculation + input);
-            return String(calculate())        
+            const calculate = new Function('return ' + input);
+            return String(calculate());       
         } catch (error) {
             // Handle any calculation errors here
             console.error('Calculation error: ', error);
