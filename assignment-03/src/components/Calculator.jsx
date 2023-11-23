@@ -8,6 +8,7 @@ const Calculator = () => {
     const [input, setInput] = useState('');
     const [pendingCalculation, setPendingCalculation] = useState('');
     const [result, setResult] = useState('');
+    // const [memory, setMemory] = useState(null);
 
     const isOperator = (value) => {
         return ['+', '-', '*', '/'].includes(value);
@@ -16,13 +17,27 @@ const Calculator = () => {
     const handleButtonClick = (value) => {
         console.log('Button clicked: ', value);
 
+        // Memory Store
+        // if(value === "MS"){
+        //     setMemory(input || result || null);
+            //Memory Recall
+        // } else if ( value === "MR"){
+        //     if (memory !== null){
+        //         setInput(memory);
+        //     }
+        // }
+
         // Clear all
-        if (value === 'AC') {
+        if (value === 'All Clear') {
+            console.log('Clearing all...');
             setInput('');
             setPendingCalculation('');
             setResult('');
+            // setMemory(null);
+            
         // Clear current input
-        } else if (value === 'C') {
+        } else if (value === 'Clear') {
+            console.log("clear...")
             setInput((prevInput) => prevInput.slice(0, -1));
         // Perform calculation
         } else if (value === '=') {
@@ -41,6 +56,8 @@ const Calculator = () => {
         console.log('Input after handling click: ', input);
         console.log('Pending Calculation: ', pendingCalculation);
         console.log('Result: ', result);
+
+        
     };
 
     useEffect(() => {
