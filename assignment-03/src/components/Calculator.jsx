@@ -4,6 +4,16 @@ import Button from './Button';
 import { calculatorButtons } from '../data/calculator-base-button-data';
 import '../assets/styles/App.css';
 
+const calculateResult = (pendingCalculation) => {
+    try {
+        const calculate = new Function('return ' + pendingCalculation);
+        return String(calculate());
+    } catch (error) {
+        console.error('Calculation error: ', error);
+        return 'Error';
+    }
+};
+
 const Calculator = () => {
     const [input, setInput] = useState('');
     const [pendingCalculation, setPendingCalculation] = useState('');
@@ -44,20 +54,31 @@ const Calculator = () => {
             if (isOperator(input.charAt(input.length - 1))) {
                 setInput((prevInput) => prevInput.slice(0, -1));
             }
-            const newResult = calculateResult();
-            setInput(newResult);
-            setPendingCalculation('');
-            setResult('');
+            setPendingCalculation(input);
+            setInput('');
+            // const newResult = calculateResult();
+            // setInput(newResult);
+            // setResult('');
         // Append numeric or operator value to input
         } else {
-            setInput((prevInput) => prevInput + value);
-            setPendingCalculation((prevPending) => prevPending + input + value);
+            // Check if the display needs to be cleared (result is currently displayed)
+            if (result !== '') {
+                if (isOperator(value)) {
+                    // If the next button clicked is an operator, start a new calculation
+                    setInput(result + value);
+                    setResult(''); // Clear the previous result
+                } else {
+                    setInput(value); // Otherwise start a new equation
+                    setResult('');  // Clear the previous result                  
+                }
+            } else {
+                setInput((prevInput) => prevInput + value);
+            }
+            // setPendingCalculation((prevPending) => prevPending + input + value);
         }
         console.log('Input after handling click: ', input);
         console.log('Pending Calculation: ', pendingCalculation);
-        console.log('Result: ', result);
-
-        
+        console.log('Result: ', result);       
     };
 
     useEffect(() => {
@@ -70,16 +91,13 @@ const Calculator = () => {
         }
     }, [input]);
 
-    const calculateResult = () => {
-        try {
-            const calculate = new Function('return ' + pendingCalculation + input);
-            return String(calculate())        
-        } catch (error) {
-            // Handle any calculation errors here
-            console.error('Calculation error: ', error);
-            return 'Error';
+    useEffect(() => {
+        if (pendingCalculation !== '') {
+            const newResult = calculateResult(pendingCalculation);
+            setResult(newResult);
+            setPendingCalculation('');
         }
-    };
+    }, [pendingCalculation]);
 
     return (
         <div className="calculator">
