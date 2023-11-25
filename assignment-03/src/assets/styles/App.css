@@ -85,6 +85,6 @@
   grid-gap: 10px;
 }
 
-.button:nth-last-child(-n+2){
+/* .button:nth-last-child(-n+2){
   grid-column: span 2;
-}
+} */
