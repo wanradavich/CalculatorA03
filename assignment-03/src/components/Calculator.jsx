@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Display from './Display';
 import Button from './Button';
-import { calculatorButtons } from '../data/calculator-bonus-01-button-data';
+import { calculatorButtons } from '../data/calculator-bonus-02-button-data';
 import '../assets/styles/App.css';
 
 const calculateResult = (pendingCalculation) => {
@@ -28,68 +28,110 @@ const Calculator = () => {
     const handleButtonClick = (value) => {
         console.log('Button clicked: ', value);
 
-        // Memory save
-    if (value === "Memory Save") {
-        const memoryValueToSave = input || result || null;
-        console.log('Memory saved check:', memoryValueToSave); //MS console check
-        setMemory(input || result || null);
-        value = '';   
-    } else if (value === "Memory Recall") {
-        if (memory !== null) {
-            console.log('Memory recalled check:', memory);// MR console check
-            setInput(memory);
-            value = '';
-        } 
-    } else if (value === "Memory Clear") {
-        setMemory(null);
-        setInput(''); // Clear input
-        setResult(''); // Clear result
-        value = '';
-        
-    } else if (value === "Memory Addition") {
-        console.log("memory add to be added")
-    } else if (value === "Memory Subtract") {
-        console.log("memory subtract to be added")
-    }
+        let hasDecimal = false; // Flag to track if the current operand contains a decimal point
+        for (let i = input.length - 1; i >= 0; i--) {
+            const char = input[i];
+            if (['+', '-', '*', '/'].includes(char)) {
+                // When an operator is reached, break the loop
+                break;
+            } else if (char === '.') {
+                hasDecimal = true;
+                break;
+            }
+        }
 
-        // Clear all
-        if (value === 'All Clear') {
-            console.log('Clearing all...');
-            setInput('');
-            setPendingCalculation('');
-            setResult('');
-            // setMemory(null);
-            
-        // Clear current input
-        } else if (value === 'Clear') {
-            console.log("clear...")
-            setInput((prevInput) => prevInput.slice(0, -1));
-        // Perform calculation
-        } else if (value === '=') {
-            if (isOperator(input.charAt(input.length - 1))) {
-                setInput((prevInput) => prevInput.slice(0, -1));
+        switch (value) {
+            case 'Memory Save': {
+                // Memory save
+                const memoryValueToSave = input || result || null;
+                console.log('Memory saved check: ', memoryValueToSave); // MS console check
+                setMemory(input || result || null);
+                setInput('');
+                break;
             }
-            setPendingCalculation(input);
-            setInput('');
-            // const newResult = calculateResult();
-            // setInput(newResult);
-            // setResult('');
-        // Append numeric or operator value to input
-        } else {
-            // Check if the display needs to be cleared (result is currently displayed)
-            if (result !== '') {
-                if (isOperator(value)) {
-                    // If the next button clicked is an operator, start a new calculation
-                    setInput(result + value);
-                    setResult(''); // Clear the previous result
-                } else {
-                    setInput(value); // Otherwise start a new equation
-                    setResult('');  // Clear the previous result                  
+            case 'Memory Recall':
+                // Memory recall
+                if (memory !== null) {
+                    console.log('Memory recalled check: ', memory); // MR console check
+                    setInput(memory);
                 }
-            } else {
-                setInput((prevInput) => prevInput + value);
+                break;
+            case 'Memory Clear':
+                // Memory clear
+                setMemory(null);
+                setInput('');
+                setResult('');
+                break;
+            case 'Memory Addition':
+                // Memory addition - to be added
+                console.log('Memory Addition to be added');
+                break;
+            case 'Memory Subtract':
+                // Memory subtraction - to be added
+                console.log('Memory Subtract to be added');
+                break;
+            case 'All Clear':
+                // Clear all
+                console.log('Clearing all...');
+                setInput('');
+                setPendingCalculation('');
+                setResult('');
+                break;
+            case 'Clear':
+                // Clear current input
+                console.log('Clear...');
+                setInput((prevInput) => prevInput.slice(0, -1));
+                break;
+            case '=': 
+                // Perform calculation
+                if (isOperator(input.charAt(input.length - 1))) {
+                    setInput((prevInput) => prevInput.slice(0, -1));
+                }
+                setPendingCalculation(input);
+                setInput('');
+                break;
+            case '.': {
+                // Decimal point
+                if (!hasDecimal) {
+                    setInput((prevInput) => prevInput + value);
+                }
+                break;
             }
-            // setPendingCalculation((prevPending) => prevPending + input + value);
+            case "+/-":
+                // Sign key
+                setInput((prevInput) => {
+                    const lastOperatorIndex = Math.max(
+                        prevInput.lastIndexOf('+'),
+                        prevInput.lastIndexOf('-'),
+                        prevInput.lastIndexOf('*'),
+                        prevInput.lastIndexOf('/')
+                    );
+
+                    // If the input is not empty and the last character is not an operator
+                    if (prevInput !== '' && prevInput.length - 1 !== lastOperatorIndex) {
+                        return prevInput.slice(0, lastOperatorIndex + 1) +
+                            (prevInput[lastOperatorIndex + 1] === '-' ? '' : '-') +
+                            prevInput.slice(lastOperatorIndex + 1);
+                    }
+
+                    return prevInput;
+                });
+                break;
+            
+            default:
+                // Append numeric or operator value to input
+                if (result !== '') {
+                    if (isOperator(value)) {
+                        setInput(result + value);
+                        setResult('');
+                    } else {
+                        setInput(value);
+                        setResult('');
+                    }
+                } else {
+                    setInput((prevInput) => prevInput + value);
+                }
+                break;
         }
         console.log('Input after handling click: ', input);
         console.log('Pending Calculation: ', pendingCalculation);
