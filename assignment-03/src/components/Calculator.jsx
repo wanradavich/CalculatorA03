@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Display from './Display';
 import Button from './Button';
-import { calculatorButtons } from '../data/calculator-base-button-data';
+import { calculatorButtons } from '../data/calculator-bonus-01-button-data';
 import '../assets/styles/App.css';
 
 const calculateResult = (pendingCalculation) => {
@@ -18,7 +18,8 @@ const Calculator = () => {
     const [input, setInput] = useState('');
     const [pendingCalculation, setPendingCalculation] = useState('');
     const [result, setResult] = useState('');
-    // const [memory, setMemory] = useState(null);
+    const [memory, setMemory] = useState(null);
+   
 
     const isOperator = (value) => {
         return ['+', '-', '*', '/'].includes(value);
@@ -27,15 +28,29 @@ const Calculator = () => {
     const handleButtonClick = (value) => {
         console.log('Button clicked: ', value);
 
-        // Memory Store
-        // if(value === "MS"){
-        //     setMemory(input || result || null);
-            //Memory Recall
-        // } else if ( value === "MR"){
-        //     if (memory !== null){
-        //         setInput(memory);
-        //     }
-        // }
+        // Memory save
+    if (value === "Memory Save") {
+        const memoryValueToSave = input || result || null;
+        console.log('Memory saved check:', memoryValueToSave); //MS console check
+        setMemory(input || result || null);
+        value = '';   
+    } else if (value === "Memory Recall") {
+        if (memory !== null) {
+            console.log('Memory recalled check:', memory);// MR console check
+            setInput(memory);
+            value = '';
+        } 
+    } else if (value === "Memory Clear") {
+        setMemory(null);
+        setInput(''); // Clear input
+        setResult(''); // Clear result
+        value = '';
+        
+    } else if (value === "Memory Addition") {
+        console.log("memory add to be added")
+    } else if (value === "Memory Subtract") {
+        console.log("memory subtract to be added")
+    }
 
         // Clear all
         if (value === 'All Clear') {
