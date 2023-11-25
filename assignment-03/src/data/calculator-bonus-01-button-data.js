@@ -42,6 +42,12 @@ export const calculatorButtons = [
     value: "Memory Addition",
   },
   {
+    type: "operator",
+    className: "divide",
+    text: "\u00f7",
+    value: "/",
+  },
+  {
     type: "number",
     className: "seven",
     text: 7,
@@ -58,6 +64,12 @@ export const calculatorButtons = [
     className: "nine",
     text: 9,
     value: 9,
+  },
+  {
+    type: "operator",
+    className: "multiply",
+    text: "\u00d7",
+    value: "*",
   },
   {
     type: "number",
@@ -78,6 +90,12 @@ export const calculatorButtons = [
     value: 6,
   },
   {
+    type: "operator",
+    className: "subtract",
+    text: "-",
+    value: "-",
+  },
+  {
     type: "number",
     className: "one",
     text: 1,
@@ -96,34 +114,16 @@ export const calculatorButtons = [
     value: 3,
   },
   {
-    type: "number",
-    className: "zero",
-    text: 0,
-    value: 0,
-  },
-  {
-    type: "operator",
-    className: "multiply",
-    text: "\u00d7",
-    value: "*",
-  },
-  {
-    type: "operator",
-    className: "divide",
-    text: "\u00f7",
-    value: "/",
-  },
-  {
     type: "operator",
     className: "add",
     text: "+",
     value: "+",
   },
   {
-    type: "operator",
-    className: "subtract",
-    text: "-",
-    value: "-",
+    type: "number",
+    className: "zero",
+    text: 0,
+    value: 0,
   },
   {
     type: "enter",
