@@ -99,21 +99,15 @@ const Calculator = () => {
             }
             case "+/-":
                 // Sign key
-                setInput((prevInput) => {
-                    const lastOperatorIndex = Math.max(
-                        prevInput.lastIndexOf('+'),
-                        prevInput.lastIndexOf('-'),
-                        prevInput.lastIndexOf('*'),
-                        prevInput.lastIndexOf('/')
-                    );
-
-                    // If the input is not empty and the last character is not an operator
-                    if (prevInput !== '' && prevInput.length - 1 !== lastOperatorIndex) {
-                        return prevInput.slice(0, lastOperatorIndex + 1) +
-                            (prevInput[lastOperatorIndex + 1] === '-' ? '' : '-') +
-                            prevInput.slice(lastOperatorIndex + 1);
+                setInput((prevInput) =>{
+                    const firstChar = prevInput.charAt(0);
+                    if(firstChar === '-'){
+                        console.log('this hit a negative number')
+                        return prevInput.slice(1)
+                    } else if (firstChar !== '0' && !isNaN(firstChar)){
+                        console.log('this hit a non negative number')
+                        return '-' + prevInput;
                     }
-
                     return prevInput;
                 });
                 break;
