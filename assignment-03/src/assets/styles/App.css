@@ -42,7 +42,7 @@
 }
 
 .calculator {
-  height: 450px;
+  height: 500px;
   width: 300px;
   margin: 50px auto;
   padding: 10px;
@@ -85,6 +85,6 @@
   grid-gap: 10px;
 }
 
-/* .button:nth-last-child(-n+2){
+.button:nth-last-child(-n+2){
   grid-column: span 2;
-} */
+}
