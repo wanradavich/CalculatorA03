@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Display from './Display';
 import Button from './Button';
-import { calculatorButtons } from '../data/calculator-bonus-02-button-data';
+import { calculatorButtons } from '../data/calculator-bonus-03-button-data';
 import '../assets/styles/App.css';
 
 const calculateResult = (pendingCalculation) => {
@@ -90,13 +90,13 @@ const Calculator = () => {
                 setPendingCalculation(input);
                 setInput('');
                 break;
-            case '.': {
+            case '.': 
                 // Decimal point
                 if (!hasDecimal) {
                     setInput((prevInput) => prevInput + value);
                 }
                 break;
-            }
+            
             case "+/-":
                 // Sign key
                 setInput((prevInput) =>{
@@ -110,6 +110,22 @@ const Calculator = () => {
                     }
                     return prevInput;
                 });
+                break;
+            case "Percent":
+                //percent sign operation
+                if (!isNaN(input) && input !== ''){
+                    setInput(String(parseFloat(input)/100));
+                } else {
+                    setInput('Error: Percent sign operation');
+                }
+                break;
+            case "Square Root":
+                //square root sign operation
+                if (parseFloat(input) >= 0){
+                    setInput(String(Math.sqrt(parseFloat(input))));
+                } else {
+                    setInput('Error');
+                }
                 break;
             
             default:
