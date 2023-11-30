@@ -64,13 +64,27 @@ const Calculator = () => {
                 setResult('');
                 break;
             case 'Memory Addition':
-                // Memory addition - to be added
-                console.log('Memory Addition to be added');
+                if(memory !== null){
+                    const memoryValue = parseFloat(memory);
+                    const inputValue = parseFloat(input);
+                    if (!isNaN(inputValue)){
+                        const newInput = memoryValue + inputValue;
+                        setInput(String(newInput));
+                    }
+                }
                 break;
-            case 'Memory Subtract':
-                // Memory subtraction - to be added
-                console.log('Memory Subtract to be added');
-                break;
+                case 'Memory Subtract':
+                    if (memory !== null) {
+                        const memoryValue = parseFloat(memory);
+                        const inputValue = parseFloat(input);
+                        console.log('Memory:', memoryValue, 'Input:', inputValue);
+                        if (!isNaN(inputValue)) {
+                            const newInput = inputValue -memoryValue;
+                         
+                            setInput(String(newInput));
+                        }
+                    }
+                    break;
             case 'All Clear':
                 // Clear all
                 console.log('Clearing all...');
