@@ -19,6 +19,7 @@ const Calculator = () => {
     const [pendingCalculation, setPendingCalculation] = useState('');
     const [result, setResult] = useState('');
     const [memory, setMemory] = useState(null);
+
    
 
     const isOperator = (value) => {
@@ -89,6 +90,8 @@ const Calculator = () => {
                 }
                 setPendingCalculation(input);
                 setInput('');
+                setResult('');
+               
                 break;
             case '.': 
                 // Decimal point
@@ -129,19 +132,28 @@ const Calculator = () => {
                 break;
             
             default:
+               if (pendingCalculation === ''){
+                setInput((prevInput) => prevInput + value);
+               } else {
+                setInput(value);
+                setPendingCalculation('');
+               }
+               setResult('');
+               break;
                 // Append numeric or operator value to input
-                if (result !== '') {
-                    if (isOperator(value)) {
-                        setInput(result + value);
-                        setResult('');
-                    } else {
-                        setInput(value);
-                        setResult('');
-                    }
-                } else {
-                    setInput((prevInput) => prevInput + value);
-                }
-                break;
+                // if (result !== '') {
+                //     if (isOperator(value)) {
+                //         setInput(result + value);
+                //         setResult('');
+                //     } else {
+                //         setInput(value);
+                //         setResult('');
+                //     }
+                // } else {
+                //     setInput((prevInput) => prevInput + value);
+                // }
+                // setPendingCalculation('');
+                // break;
         }
         console.log('Input after handling click: ', input);
         console.log('Pending Calculation: ', pendingCalculation);
