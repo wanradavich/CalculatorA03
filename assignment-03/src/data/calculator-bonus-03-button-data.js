@@ -12,10 +12,40 @@ export const calculatorButtons = [
     value: "Clear",
   },
   {
+    type: "memory",
+    className: "mc",
+    text: "MC",
+    value: "Memory Clear",
+  },
+  {
+    type: "memory",
+    className: "mr",
+    text: "MR",
+    value: "Memory Recall",
+  },
+  {
     type: "sign",
     className: "sign",
     text: "+/-",
     value: "+/-",
+  },
+  {
+    type: "memory",
+    className: "ms",
+    text: "MS",
+    value: "Memory Save",
+  },
+  {
+    type: "memory",
+    className: "m-plus",
+    text: "M+",
+    value: "Memory Addition",
+  },
+  {
+    type: "memory",
+    className: "m-minus",
+    text: "M-",
+    value: "Memory Subtract",
   },
   {
     type: "percent",
@@ -30,46 +60,16 @@ export const calculatorButtons = [
     value: "Square Root",
   },
   {
-    type: "memory",
-    className: "ms",
-    text: "MS",
-    value: "Memory Save",
-  },
-  {
-    type: "memory",
-    className: "mc",
-    text: "MC",
-    value: "Memory Clear",
-  },
-  {
-    type: "memory",
-    className: "mr",
-    text: "MR",
-    value: "Memory Recall",
-  },
-  {
-    type: "memory",
-    className: "m-minus",
-    text: "M-",
-    value: "Memory Subtract",
-  },
-  {
-    type: "memory",
-    className: "m-plus",
-    text: "M+",
-    value: "Memory Addition",
-  },
-  {
-    type: "number",
-    className: "decimal",
-    text: ".",
-    value: ".",
-  },
-  {
     type: "operator",
     className: "divide",
     text: "\u00f7",
     value: "/",
+  },
+  {
+    type: "operator",
+    className: "multiply",
+    text: "\u00d7",
+    value: "*",
   },
   {
     type: "number",
@@ -91,9 +91,9 @@ export const calculatorButtons = [
   },
   {
     type: "operator",
-    className: "multiply",
-    text: "\u00d7",
-    value: "*",
+    className: "subtract",
+    text: "-",
+    value: "-",
   },
   {
     type: "number",
@@ -115,9 +115,9 @@ export const calculatorButtons = [
   },
   {
     type: "operator",
-    className: "subtract",
-    text: "-",
-    value: "-",
+    className: "add",
+    text: "+",
+    value: "+",
   },
   {
     type: "number",
@@ -138,10 +138,10 @@ export const calculatorButtons = [
     value: 3,
   },
   {
-    type: "operator",
-    className: "add",
-    text: "+",
-    value: "+",
+    type: "enter",
+    className: "equal",
+    text: "=",
+    value: "=",
   },
   {
     type: "number",
@@ -149,12 +149,11 @@ export const calculatorButtons = [
     text: 0,
     value: 0,
   },
- 
- 
   {
-    type: "enter",
-    className: "equal",
-    text: "=",
-    value: "=",
+    type: "number",
+    className: "decimal",
+    text: ".",
+    value: ".",
   },
+
 ];
