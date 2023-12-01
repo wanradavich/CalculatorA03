@@ -11,7 +11,9 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
+  
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
@@ -42,7 +44,7 @@
 }
 
 .calculator {
-  height: 500px;
+  height: 520px;
   width: 300px;
   margin: 50px auto;
   padding: 10px;
@@ -74,6 +76,11 @@
   grid-column: span 1;
 }
 
+.button.ac, 
+.button.c {
+  background-color: #266dd3;
+}
+
 .button:hover {
   cursor: pointer;
 }
@@ -85,6 +92,10 @@
   grid-gap: 10px;
 }
 
-.button:nth-last-child(-n+2){
+.button:nth-last-child(2){
   grid-column: span 2;
+}
+
+.button:nth-last-child(3){
+  grid-row: span 2;
 }
