@@ -84,6 +84,12 @@ export const calculatorButtons = [
     style: { backgroundColor: 'rgba(254, 215, 102, 0.5)' },
   },
   {
+    type: "operator",
+    className: "multiply",
+    text: "\u00d7",
+    value: "*",
+  },
+  {
     type: "number",
     className: "seven",
     text: 7,
@@ -181,4 +187,5 @@ export const calculatorButtons = [
     value: ".",
     style: { backgroundColor: 'rgba(50, 232, 117, 0.5)' },
   },
+
 ];
