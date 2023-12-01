@@ -11,7 +11,9 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
+  
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
@@ -74,6 +76,11 @@
   grid-column: span 1;
 }
 
+.button.ac, 
+.button.c {
+  background-color: #266dd3;
+}
+
 .button:hover {
   cursor: pointer;
 }
@@ -91,4 +98,4 @@
 
 .button:nth-last-child(3){
   grid-row: span 2;
-}
+

@@ -19,6 +19,7 @@ const Calculator = () => {
     const [pendingCalculation, setPendingCalculation] = useState('');
     const [result, setResult] = useState('');
     const [memory, setMemory] = useState(null);
+    const [toggleSign, setToggleSign] = useState(false);
 
    
 
@@ -64,13 +65,27 @@ const Calculator = () => {
                 setResult('');
                 break;
             case 'Memory Addition':
-                // Memory addition - to be added
-                console.log('Memory Addition to be added');
+                if(memory !== null){
+                    const memoryValue = parseFloat(memory);
+                    const inputValue = parseFloat(input);
+                    if (!isNaN(inputValue)){
+                        const newInput = memoryValue + inputValue;
+                        setInput(String(newInput));
+                    }
+                }
                 break;
-            case 'Memory Subtract':
-                // Memory subtraction - to be added
-                console.log('Memory Subtract to be added');
-                break;
+                case 'Memory Subtract':
+                    if (memory !== null) {
+                        const memoryValue = parseFloat(memory);
+                        const inputValue = parseFloat(input);
+                        console.log('Memory:', memoryValue, 'Input:', inputValue);
+                        if (!isNaN(inputValue)) {
+                            const newInput = inputValue -memoryValue;
+                         
+                            setInput(String(newInput));
+                        }
+                    }
+                    break;
             case 'All Clear':
                 // Clear all
                 console.log('Clearing all...');
@@ -102,17 +117,44 @@ const Calculator = () => {
             
             case "+/-":
                 // Sign key
-                setInput((prevInput) =>{
-                    const firstChar = prevInput.charAt(0);
-                    if(firstChar === '-'){
-                        console.log('this hit a negative number')
-                        return prevInput.slice(1)
-                    } else if (firstChar !== '0' && !isNaN(firstChar)){
-                        console.log('this hit a non negative number')
-                        return '-' + prevInput;
+                // setInput((prevInput) =>{
+                //     const firstChar = prevInput.charAt(0);
+                //     if(firstChar === '-'){
+                //         console.log('this hit a negative number')
+                //         return prevInput.slice(1)
+                //     } else if (firstChar !== '0' && !isNaN(firstChar)){
+                //         console.log('this hit a non negative number')
+                //         return '-' + prevInput;
+                //     }
+                //     return prevInput;
+                // });
+                setInput((prevInput) => {
+                    if (prevInput === '' || prevInput === '-') {
+                      // If input is empty or already negative, just add a minus sign
+                      return '-';
                     }
+          
+                    const lastChar = prevInput.slice(-1);
+                    const secondLastChar = prevInput.charAt(prevInput.length - 2);
+          
+                    if (lastChar === '-' && (isOperator(secondLastChar) || secondLastChar === '-')) {
+                      // If the last character is a minus sign and the second-to-last character is an operator or another minus sign,
+                      // allow for subtracting a negative number
+                      setToggleSign(!toggleSign);
+                      return prevInput + '-';
+                    } else if (isOperator(lastChar) || lastChar === '-') {
+                      // If the last character is an operator or a minus sign, add a minus sign
+                      setToggleSign(!toggleSign);
+                      return prevInput + '-';
+                    } else if (!isNaN(lastChar) || lastChar === '.') {
+                      // If the last character is a number or a decimal point, toggle the sign
+                      setToggleSign(!toggleSign);
+                      return (toggleSign ? '' : '-') + prevInput;
+                    }
+          
+                    // Otherwise, just return the input as is
                     return prevInput;
-                });
+                  });
                 break;
             case "Percent":
                 //percent sign operation
@@ -140,20 +182,6 @@ const Calculator = () => {
                }
                setResult('');
                break;
-                // Append numeric or operator value to input
-                // if (result !== '') {
-                //     if (isOperator(value)) {
-                //         setInput(result + value);
-                //         setResult('');
-                //     } else {
-                //         setInput(value);
-                //         setResult('');
-                //     }
-                // } else {
-                //     setInput((prevInput) => prevInput + value);
-                // }
-                // setPendingCalculation('');
-                // break;
         }
         console.log('Input after handling click: ', input);
         console.log('Pending Calculation: ', pendingCalculation);
