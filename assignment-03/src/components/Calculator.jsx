@@ -6,7 +6,8 @@ import '../assets/styles/App.css';
 
 const calculateResult = (pendingCalculation) => {
     try {
-        const calculate = new Function('return ' + pendingCalculation);
+        const adjustedCalculation = pendingCalculation.replace(/--/g, '+');
+        const calculate = new Function('return ' + adjustedCalculation);
         return String(calculate());
     } catch (error) {
         console.error('Calculation error: ', error);
@@ -19,7 +20,6 @@ const Calculator = () => {
     const [pendingCalculation, setPendingCalculation] = useState('');
     const [result, setResult] = useState('');
     const [memory, setMemory] = useState(null);
-    const [toggleSign, setToggleSign] = useState(false);
 
    
 
@@ -117,44 +117,36 @@ const Calculator = () => {
             
             case "+/-":
                 // Sign key
-                // setInput((prevInput) =>{
-                //     const firstChar = prevInput.charAt(0);
-                //     if(firstChar === '-'){
-                //         console.log('this hit a negative number')
-                //         return prevInput.slice(1)
-                //     } else if (firstChar !== '0' && !isNaN(firstChar)){
-                //         console.log('this hit a non negative number')
-                //         return '-' + prevInput;
-                //     }
-                //     return prevInput;
-                // });
                 setInput((prevInput) => {
                     if (prevInput === '' || prevInput === '-') {
-                      // If input is empty or already negative, just add a minus sign
-                      return '-';
+                        // If input is empty or already negative, just add a minus sign
+                        return '-';
                     }
-          
-                    const lastChar = prevInput.slice(-1);
-                    const secondLastChar = prevInput.charAt(prevInput.length - 2);
-          
-                    if (lastChar === '-' && (isOperator(secondLastChar) || secondLastChar === '-')) {
-                      // If the last character is a minus sign and the second-to-last character is an operator or another minus sign,
-                      // allow for subtracting a negative number
-                      setToggleSign(!toggleSign);
-                      return prevInput + '-';
-                    } else if (isOperator(lastChar) || lastChar === '-') {
-                      // If the last character is an operator or a minus sign, add a minus sign
-                      setToggleSign(!toggleSign);
-                      return prevInput + '-';
-                    } else if (!isNaN(lastChar) || lastChar === '.') {
-                      // If the last character is a number or a decimal point, toggle the sign
-                      setToggleSign(!toggleSign);
-                      return (toggleSign ? '' : '-') + prevInput;
+            
+                    // Split the input by operator signs
+                    const inputParts = prevInput.split(/([+\-*/])/);
+            
+                    // Find the last numeric part in the input
+                    let lastNumericPartIndex = -1;
+                    for (let i = inputParts.length - 1; i >= 0; i--) {
+                        if (!isNaN(parseFloat(inputParts[i]))) {
+                            lastNumericPartIndex = i;
+                            break;
+                        }
                     }
-          
-                    // Otherwise, just return the input as is
-                    return prevInput;
-                  });
+            
+                    // Toggle the sign of the last numeric part
+                    if (lastNumericPartIndex !== -1) {
+                        const lastNumericPart = inputParts[lastNumericPartIndex];
+                        const toggledNumericPart = lastNumericPart[0] === '-' ? lastNumericPart.slice(1) : '-' + lastNumericPart;
+                        inputParts[lastNumericPartIndex] = toggledNumericPart;
+                    }
+            
+                    // Join the parts back into a single string
+                    const updatedInput = inputParts.join('');
+            
+                    return updatedInput;
+                });
                 break;
             case "Percent":
                 //percent sign operation
